@@ -1,0 +1,5 @@
+.DS_Store
+/samples
+/tests
+*.tmp
+*.bak
