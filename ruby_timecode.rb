@@ -81,7 +81,7 @@ def timecode_framecount(smpte_tc, fps)
   total_minutes = 60 * timecode_array[:hh] + timecode_array[:mm]
   puts "timecode_framecount - is_drop =  " + timecode_array[:is_drop].to_s
   if timecode_array[:is_drop] == true
-    frames_dropped = 2 * total_minutes - (total_minutes / 10)
+    frames_dropped = 2 * (total_minutes - (total_minutes / 10))
   end
   frames_in_seconds = fps * timecode_array[:ss]
   frames_in_minutes = fps * timecode_array[:mm] * 60
@@ -101,7 +101,7 @@ def timecode_frames_to_smpte(frame_count, fps, is_drop=false)
     frames_dropped = 2
   else
     frames_seperator = ':'
-    frames_droppd = 0
+    frames_dropped = 0
   end
 
   fps = fps_normalize(fps)
@@ -123,7 +123,7 @@ def timecode_frames_to_smpte(frame_count, fps, is_drop=false)
 
   frames = frame_count % fps
   seconds = (frame_count / fps) % 60
-  minutes = ((frame_count / fps) / 60) % fps
+  minutes = ((frame_count / fps) / 60) % 60
   hours = (((frame_count / fps) / 60) / 60) % 24
 
   # Ensure 2 digit fields
@@ -144,3 +144,4 @@ def tc_add(tc_in, tc_offset, fps, is_drop=false)
   new_tc = timecode_framecount(tc_in, fps) + timecode_framecount(tc_offset, fps)
   return timecode_frames_to_smpte(new_tc, fps, is_drop)
 end
+

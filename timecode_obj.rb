@@ -40,17 +40,18 @@ class Timecode
 
     total_minutes = 60 * hh + mm
     if is_drop == true
-      frames_dropped = 2 * total_minutes - (total_minutes / 10)
+      frames_dropped = 2 * (total_minutes - (total_minutes / 10))
+      puts "frames droppped " + frames_dropped.to_s
     end
     frames_in_seconds = nominal_fps * ss
     frames_in_minutes = nominal_fps * mm * 60
     frames_in_hours   = nominal_fps * hh * 60 * 60
+
     framecount = ff + frames_in_seconds + frames_in_minutes + frames_in_hours - frames_dropped
 
     #puts frame_count
     return framecount
   end
-
 
 
   def timecode_format
@@ -62,7 +63,6 @@ class Timecode
 
     "%02d" % hh.to_s + ':' + "%02d" % mm.to_s + ':' + "%02d" % ss.to_s + frames_seperator + "%02d" % ff.to_s
   end
-
 end
 
 # Converts the framecount to valid SMPTE timecode.
@@ -73,7 +73,7 @@ def timecode_frames_to_smpte(frame_count, fps, is_drop)
     frames_dropped = 2
   else
     frames_seperator = ':'
-    frames_droppd = 0
+    frames_dropped = 0
   end
 
   fps = fps_normalize(fps)
@@ -87,15 +87,21 @@ def timecode_frames_to_smpte(frame_count, fps, is_drop)
   if is_drop == true
     whole_ten_minutes = frame_count / 17982
     partial_ten_minutes = frame_count % 17982
+    puts "whole tens " + whole_ten_minutes.to_s
+    puts "partial tens " + partial_ten_minutes.to_s
     if partial_ten_minutes < 2
       partial_ten_minutes = 2
     end
-    frame_count += (whole_ten_minutes * 18) + 2 * ((partial_ten_minutes - 2) / 1798)
+    frame_count += (whole_ten_minutes * 18) + (2 * ((partial_ten_minutes - 2) / 1798))
+    puts "whole tens * 19 " + (whole_ten_minutes * 19).to_s
+    puts 2 * ((partial_ten_minutes - 2) / 1798)
   end
-
+  puts frame_count
   frames = frame_count % fps
+
   seconds = (frame_count / fps) % 60
-  minutes = ((frame_count / fps) / 60) % fps
+
+  minutes = ((frame_count / fps) / 60) % 60
   hours = (((frame_count / fps) / 60) / 60) % 24
 
   # Ensure 2 digit fields
@@ -129,10 +135,9 @@ end
 # puts s.is_drop
 # puts s.timecode_framecount
 
-t = Timecode.new("01:04:15;04", 29.97)
+t = Timecode.new("00:05:59;28", 29.97)
 puts t.timecode_format
 puts t.is_drop
-puts t.timecode_framecount
 puts t.timecode_framecount
 puts t.fps
 puts t.is_drop
