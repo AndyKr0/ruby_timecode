@@ -87,13 +87,11 @@ def timecode_frames_to_smpte(frame_count, fps, is_drop)
   if is_drop == true
     whole_ten_minutes = frame_count / 17982
     partial_ten_minutes = frame_count % 17982
-    puts "whole tens " + whole_ten_minutes.to_s
-    puts "partial tens " + partial_ten_minutes.to_s
+
     if partial_ten_minutes < 2
       partial_ten_minutes = 2
     end
     frame_count += (whole_ten_minutes * 18) + (2 * ((partial_ten_minutes - 2) / 1798))
-    puts "whole tens * 19 " + (whole_ten_minutes * 19).to_s
     puts 2 * ((partial_ten_minutes - 2) / 1798)
   end
   puts frame_count
