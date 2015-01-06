@@ -130,16 +130,13 @@ def fps_normalize(fps)
   return nominal_fps
 end
 
-# s = Timecode.new("01:00:00;00", 24)
-# puts s.timecode_format
-# puts s.is_drop
-# puts s.timecode_framecount
-
-t = Timecode.new("00:05:59;28", 29.97)
-puts t.timecode_format
-puts t.is_drop
-puts t.timecode_framecount
-puts t.fps
-puts t.is_drop
-x = Timecode.new(timecode_frames_to_smpte(t.timecode_framecount, t.fps, t.is_drop), 29.97)
-puts x.timecode_format
+# Simple Tests
+# --------------------------------------
+# t = Timecode.new("00:05:59;28", 29.97)
+# puts t.timecode_format
+# puts t.is_drop
+# puts t.timecode_framecount
+# puts t.fps
+# puts t.is_drop
+# x = Timecode.new(timecode_frames_to_smpte(t.timecode_framecount, t.fps, t.is_drop), 29.97)
+# puts x.timecode_format

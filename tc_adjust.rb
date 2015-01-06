@@ -2,9 +2,11 @@
 require  './ruby_timecode.rb'
 
 def usage_notes()
+  puts "\nCommand line tool to adjust plain text timecodes."
   puts "\n\nUsage:"
   puts "ruby_timecode.rb input_filename output_filename offset_timecode [optional]fps"
   puts "\n\tDefaults to 29.97 dropframe timecode if no fps provided."
+  puts '\n\tSource timecodes with the format of "hh:mm:ss;ff" will automatically force dropframe timecode.'
   puts "\n\n"
 end
 

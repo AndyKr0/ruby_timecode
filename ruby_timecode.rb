@@ -33,7 +33,6 @@ def is_drop?(fps, timecode)
   if fps == 29.97 && timecode[8] == ';'
     return true
   else
-    puts "is_drop? - Timecode mismatch"
     return false
   end
 end
@@ -73,13 +72,12 @@ def fps_normalize(fps)
 end
 
 # Converts SMPTE timecodes to an accurate frame count at a given FPS.
-def timecode_framecount(smpte_tc, fps)
+def timecode_framecount(timecode, fps)
   frames_dropped = 0 # init - I don't need this, do I!
   fps = fps_normalize(fps)
   timecode_array = timecode_split(timecode)
 
   total_minutes = 60 * timecode_array[:hh] + timecode_array[:mm]
-  puts "timecode_framecount - is_drop =  " + timecode_array[:is_drop].to_s
   if timecode_array[:is_drop] == true
     frames_dropped = 2 * (total_minutes - (total_minutes / 10))
   end
@@ -139,9 +137,8 @@ end
 
 def tc_add(tc_in, tc_offset, fps, is_drop=false)
   is_drop = is_drop?(fps, tc_in)
-  puts timecode_framecount(tc_in, fps)
-  puts timecode_framecount(tc_offset, fps)
+  #puts timecode_framecount(tc_in, fps)
+  #puts timecode_framecount(tc_offset, fps)
   new_tc = timecode_framecount(tc_in, fps) + timecode_framecount(tc_offset, fps)
   return timecode_frames_to_smpte(new_tc, fps, is_drop)
 end
-
